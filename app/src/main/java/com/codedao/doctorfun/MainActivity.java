@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         final AIConfiguration config = new AIConfiguration("d44fae1ddff846adbfeb5fb0cf5a305d",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
-
-
         aiService = AIService.getService(this, config);
         aiService.setListener(this);
 
@@ -66,11 +64,13 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         mButtonSendQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mMessageModels.add(new MessageModel(mEditTextQuestion.getText().toString(), 2));
                 mCustomRecyclerPageChat.updateRecyclerView(mMessageModels);
                 aiService.startListening();
                 final AIRequest aiRequest = new AIRequest();
                 aiRequest.setQuery(mEditTextQuestion.getText().toString());
+                mEditTextQuestion.setText("");
                 new LoadAnswer(MainActivity.this).execute(aiRequest);
 
             }
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
         protected void onPostExecute(AIResponse aiResponse) {
             if (aiResponse != null) {
                 Result result = aiResponse.getResult();
-                Fulfillment fulfillment=aiResponse.getResult().getFulfillment();
+                Fulfillment fulfillment = aiResponse.getResult().getFulfillment();
                 // Get parameters
                 String parameterString = "";
                 if (result.getParameters() != null && !result.getParameters().isEmpty()) {
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements AIListener {
                 }
                 ArrayList<MessageModel> messageModels = new ArrayList<>();
                 messageModels.add(new MessageModel(fulfillment.getSpeech(), 1));
-                Log.e("MainActivity",fulfillment.getSpeech());
+                Log.e("MainActivity", fulfillment.getSpeech());
                 updateListMeassage(messageModels);
             }
 
