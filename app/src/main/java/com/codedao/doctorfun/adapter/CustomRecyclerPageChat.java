@@ -59,7 +59,8 @@ public class CustomRecyclerPageChat extends RecyclerView.Adapter<RecyclerView.Vi
             RecyclerViewHolderUser recyclerViewHolderUser = (RecyclerViewHolderUser) holder;
             recyclerViewHolderUser.tvUser.setText(messageModel.getmMessage());
         } else {
-
+            RecyclerViewHolderUser recyclerViewHolderUser = (RecyclerViewHolderUser) holder;
+            recyclerViewHolderUser.tvUser.setText(messageModel.getmMessage());
         }
     }
 
